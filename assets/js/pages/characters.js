@@ -1,5 +1,6 @@
 import { loadHTML } from '../utils/helpers.js';
 import { getCharacters } from '../services/api.js';
+import { getLocations } from '../services/api.js';
 import { characterCard } from '../components/characterCard.js';
 
 let currentPageAPI = 1;
@@ -18,21 +19,27 @@ export async function renderCharacters(page = 1) {
 
     // Verifica si la funcion es llamada con un numero de pagina, si es asi, llama a la funcion getCharactersByPage, 
     // sino, llama a la funcion getCharacters
-    let characters;
-    if (page) {
-        characters = await getCharacters(page);
-        container.innerHTML = "";   
-    } else {
-        characters = await getCharacters(1);
-    }
+    const characters = await loadPage('characters', page, container);
 
     container.innerHTML = characters
         .map(character => characterCard(character))
         .join('');
-    loadPage();
 }
 
-function loadPage() {
+async function loadPage(view ,page = 1, container) {
+
+    const views = {
+        characters: getCharacters,
+        locations: getLocations,
+    };
+
+    let info;
+    if (page) {
+        info = await views[view](page);
+        container.innerHTML = "";
+    } else {
+        info = await views[view](1);
+    }
     // Agrega eventos a los botones de paginacion para cambiar la pagina actual y renderizar la pagina correspondiente
     const nextButton = document.getElementById('next');
     const previousButton = document.getElementById('previous');
@@ -52,4 +59,5 @@ function loadPage() {
             history.pushState(null, null, `?page=${currentPageAPI}`);
         }
     });
+    return info;
 }
