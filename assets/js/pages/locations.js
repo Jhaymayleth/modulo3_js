@@ -1,5 +1,5 @@
 import { loadHTML } from '../utils/helpers.js';
-import { loadPage } from '../utils/helpers.js';
+import { loadPage } from '../services/api.js';
 import { locationCard } from '../components/locationsCard.js';
 
 /**
