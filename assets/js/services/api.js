@@ -25,11 +25,9 @@ export async function getCharacters(page = 1) {
  *
  * @returns {Promise<Array>}
  */
-export async function getLocations() {
+export async function getLocations(page = 1) {
     try {
-        const response = await httpClient.get('/location');
-        console.log(response);
-        
+        const response = await httpClient.get(`/location?page=${page}`);
         return response.data.results;
 
     } catch (error) {

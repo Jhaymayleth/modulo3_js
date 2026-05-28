@@ -1,3 +1,8 @@
+import { getCharacters } from '../services/api.js';
+import { getLocations } from '../services/api.js';
+import { renderCharacters } from '../pages/characters.js';
+import { renderLocations } from '../pages/locations.js';
+
 /**
  * Helpers reutilizables
  */
@@ -13,4 +18,43 @@ export async function loadHTML(path) {
         console.error(error);
         return '<h2>Error cargando contenido</h2>';
     }
+}
+
+// Función para cargar datos de personajes o locaciones dependiendo del view, y manejar la paginación
+export async function loadPage(view ,page = 1, container) {
+
+    const views = {
+        characters: [renderCharacters, getCharacters],
+        locations: [renderLocations, getLocations]
+    }
+    let currentPageAPI;
+    let info;
+    if (page) {
+        info = await views[view][1](page);
+        container.innerHTML = "";
+        currentPageAPI = page;
+    } else {
+        info = await views[view][1](1);
+        let currentPageAPI = 1;
+    }
+    // Agrega eventos a los botones de paginacion para cambiar la pagina actual y renderizar la pagina correspondiente
+    const nextButton = document.getElementById('next');
+    const previousButton = document.getElementById('previous');
+    
+    nextButton.addEventListener('click', () => {    
+        currentPageAPI++;
+        history.pushState(null, null, `?page=${currentPageAPI}`);
+        views[view][0](currentPageAPI);
+    });
+    
+    previousButton.addEventListener('click', () => {
+        if (currentPageAPI > 1) {
+            currentPageAPI--;
+            history.pushState(null, null, `?page=${currentPageAPI}`);
+            views[view][0](currentPageAPI);
+        } else {
+            history.pushState(null, null, `?page=${currentPageAPI}`);
+        }
+    });
+    return info;
 }
