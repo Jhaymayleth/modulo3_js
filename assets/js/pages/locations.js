@@ -1,11 +1,11 @@
 import { loadHTML } from '../utils/helpers.js';
-import { getLocations } from '../services/api.js';
+import { loadPage } from '../services/api.js';
 import { locationCard } from '../components/locationsCard.js';
 
 /**
  * Renderiza las locaciones
  */
-export async function renderLocations() {
+export async function renderLocations(page = 1) {
     const content = document.getElementById('content');
     content.innerHTML = await loadHTML(
         './assets/js/views/locations.html'
@@ -13,7 +13,9 @@ export async function renderLocations() {
     const container = document.getElementById(
         'locations-container'
     );
-    const locations = await getLocations();
+
+    const locations = await loadPage('locations', page, container);
+
     container.innerHTML = locations
         .map(location => locationCard(location))
         .join('');
