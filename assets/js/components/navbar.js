@@ -9,7 +9,7 @@ export async function loadNavbar() {
     navbar.innerHTML = `
         <nav class="navbar">
             <a href="/" data-link>Home</a>
-            <a href="/location" data-link>Locations</a>
+            <a href="/location?page=1" data-link>Locations</a>
             <a href="/characters?page=1" data-link>Characters</a>
             <a href="/contacts" data-link>Contactos</a>
             <a href="/about" data-link>Quiénes Somos</a>

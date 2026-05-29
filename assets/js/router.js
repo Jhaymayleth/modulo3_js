@@ -23,18 +23,21 @@ const routes = {
  * Router principal
  */
 export async function router() {
-
-    // Obtiene ruta real
     const path = window.location.pathname;
-    // Busca render
+    // convierte a numero el valor del query param "page" (query param es un valor que va despues del "?" en la url, por ejemplo: "?page=2")
+    const page = Number(new URLSearchParams(window.location.search).get('page'));
+
+    // obtiene la función de renderizado para la ruta actual
     const render = routes[path];
+
     if (render) {
-        await render();
-    } else {
-        document.getElementById('content').innerHTML = `
-            <section>
-                <h2>404 - Página no encontrada</h2>
-            </section>
-        `;
+        await render(page);
+        return;
     }
+
+    document.getElementById('content').innerHTML = `
+        <section>
+            <h2>404 - Página no encontrada</h2>
+        </section>
+    `;
 }

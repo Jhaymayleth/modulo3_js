@@ -1,6 +1,3 @@
-import { renderLocations } from '../pages/locations.js';
-import { renderCharacters } from '../pages/characters.js';
-
 /**
  * Servicio API Rick and Morty
  */
@@ -14,8 +11,8 @@ import httpClient from './httpClient.js';
  */
 export async function getCharacters(page = 1) {
     try {
+        // obtiene datos de los personajes y el total de páginas
         const response = await httpClient.get(`/character?page=${page}`);
-        console.log(response.data);
         return [response.data.results, response.data.info.pages];
 
     } catch (error) {
@@ -31,6 +28,7 @@ export async function getCharacters(page = 1) {
  */
 export async function getLocations(page = 1) {
     try {
+        // obtiene datos de las locaciones y el total de páginas
         const response = await httpClient.get(`/location?page=${page}`);
         return [response.data.results, response.data.info.pages];
 
@@ -41,48 +39,49 @@ export async function getLocations(page = 1) {
 }
 
 // Función para cargar datos de personajes o locaciones dependiendo del view, y manejar la paginación
-export async function loadPage(view ,page = 1, container) {
-    let currentPageAPI;
-    let info;
-
+export async function loadPage(view, page = 1, container) {
     const views = {
-        characters: [renderCharacters, getCharacters],
-        locations: [renderLocations, getLocations]
+        characters: getCharacters,
+        locations: getLocations
+    };
+
+    const fetchPage = views[view];
+
+    if (!fetchPage) {
+        console.error(`View "${view}" not found.`);
+        return;
     }
 
-    const items = await views[view][1](page);
-    info = items[0];
-    let lastPage = items[1];
+    const currentPage = Number(page) || 1;
+    const [items, lastPage] = await fetchPage(currentPage);
 
-    if (page) {
-        container.innerHTML = "";
-        currentPageAPI = page;
-    } else {
-        currentPageAPI = 1;
-    }
-    
-    // Agrega eventos a los botones de paginacion para cambiar la pagina actual y renderizar la pagina correspondiente
+    container.innerHTML = '';
+
     const nextButton = document.getElementById('next');
     const previousButton = document.getElementById('previous');
-    
-    nextButton.addEventListener('click', () => {    
-        if (currentPageAPI < lastPage) {
-            currentPageAPI++;
-            history.pushState(null, null, `?page=${currentPageAPI}`);
-            views[view][0](currentPageAPI);
-        } else {
-            history.pushState(null, null, `?page=${currentPageAPI}`);
+
+    const routeMap = {
+        characters: '/characters',
+        locations: '/location'
+    };
+
+    function goToPage(newPage) {
+        const route = routeMap[view] || `/${view}`;
+        history.pushState(null, '', `${route}?page=${newPage}`);
+        window.dispatchEvent(new PopStateEvent('popstate'));
+    }
+
+    nextButton.addEventListener('click', () => {
+        if (currentPage < lastPage) {
+            goToPage(currentPage + 1);
         }
     });
-    
+
     previousButton.addEventListener('click', () => {
-        if (currentPageAPI > 1 ) {
-            currentPageAPI--;
-            history.pushState(null, null, `?page=${currentPageAPI}`);
-            views[view][0](currentPageAPI);
-        } else {
-            history.pushState(null, null, `?page=${currentPageAPI}`);
+        if (currentPage > 1) {
+            goToPage(currentPage - 1);
         }
     });
-    return info;
+
+    return items;
 }
