@@ -1,0 +1,41 @@
+<section>
+    <div class="characters-header">
+        <h1>Rick and Morty Characters</h1>
+        <button id="btn-add">➕ Añadir Personaje</button>
+    </div>
+
+    <div class="pagination">
+        <button id="previous">◀ Previous</button>
+        <button id="next">Next ▶</button>
+    </div>
+
+    <div id="characters-container" class="grid"></div>
+</section>
+
+<!-- Modal para añadir / editar personaje -->
+<div id="modal" class="modal hidden">
+    <div class="modal-content">
+        <h2 id="modal-title">Añadir Personaje</h2>
+
+        <label>Nombre</label>
+        <input type="text" id="input-name" placeholder="Nombre del personaje">
+
+        <label>Status</label>
+        <select id="input-status">
+            <option value="Alive">Alive</option>
+            <option value="Dead">Dead</option>
+            <option value="unknown">Unknown</option>
+        </select>
+
+        <label>Species</label>
+        <input type="text" id="input-species" placeholder="Ej: Human, Alien...">
+
+        <label>Imagen (URL)</label>
+        <input type="text" id="input-image" placeholder="https://...">
+
+        <div class="modal-actions">
+            <button id="btn-cancel">Cancelar</button>
+            <button id="btn-save">Guardar</button>
+        </div>
+    </div>
+</div>
