@@ -21,18 +21,29 @@ La aplicación implementa:
 
 ## Home
 
-- Consume la API pública de Rick and Morty
-- Obtiene personajes dinámicamente
-- Renderiza cards reutilizables
+- Muestra estadisticas de la pagina
+- Renderiza el total de personajes, localidades y episodios
+
+## Characters
+
+- Consume la api de Rick y Morty
+- Renderiza las tarjetas de los personajes con paginado simple
+
+## Ubicaciones
+
+- Renderiza las tarjetas de las ubicaciones con paginado simple
+
+## Episodios
+
+- Renderiza las tarjetas de los episodios con paginado simple y los personajes que aparecen alli 
 
 ## Contactos
 
 - Formulario desacoplado
-- Manejo de eventos JavaScript
 
 ## Quiénes Somos
 
-- Página estática modular
+- Corto about us de la pagina
 
 ## Arquitectura SPA
 
@@ -55,37 +66,51 @@ La aplicación implementa:
 # Estructura del proyecto
 
 ```txt
-spa-rick-morty/
-│
-├── index.html
-├── assets/
-│   ├── css/
+Rick_And_orty_SPA
+├── assets
+│   ├── css
 │   │   └── styles.css
-│   │
-│   └── js/
+│   ├── img
+│   │   ├── background.jpg
+│   │   ├── favicon-package
+│   │   │   ├── apple-touch-icon.png
+│   │   │   ├── favicon-96x96.png
+│   │   │   ├── favicon-code.html
+│   │   │   ├── favicon.ico
+│   │   │   ├── icon-192.png
+│   │   │   ├── icon-512.png
+│   │   │   └── site.webmanifest
+│   │   └── logo.png
+│   └── js
 │       ├── app.js
-│       ├── router.js
-│       │
-│       ├── services/
-│       │   └── api.js
-│       │
-│       ├── utils/
-│       │   └── helpers.js
-│       │
-│       ├── components/
-│       │   ├── navbar.js
-│       │   └── characterCard.js
-│       │
-│       ├── pages/
-│       │   ├── home.js
+│       ├── components
+│       │   ├── characterCard.js
+│       │   ├── episodesCard.js
+│       │   ├── locationsCard.js
+│       │   └── navbar.js
+│       ├── pages
+│       │   ├── about.js
+│       │   ├── characters.js
 │       │   ├── contacts.js
-│       │   └── about.js
-│       │
-│       └── views/
-│           ├── home.html
+│       │   ├── episodes.js
+│       │   ├── home.js
+│       │   └── locations.js
+│       ├── router.js
+│       ├── services
+│       │   ├── api.js
+│       │   └── httpClient.js
+│       ├── utils
+│       │   └── helpers.js
+│       └── views
+│           ├── about.html
+│           ├── characters.html
 │           ├── contacts.html
-│           └── about.html
-│
+│           ├── episodes.html
+│           ├── home.html
+│           └── locations.html
+├── index.html
+├── package.json
+├── package-lock.json
 └── README.md
 ```
 

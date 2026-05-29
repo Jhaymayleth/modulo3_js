@@ -93,7 +93,6 @@ export async function renderCharacters(page = 1) {
                 // Si es un personaje local, lo filtramos. Si es de la API, va a la lista negra.
                 if (String(id).startsWith('local-')) {
                     localCharacters = localCharacters.filter(c => String(c.id) !== id);
-                    localStorage.setItem("localCharacter", JSON.stringify([localCharacters, deletedApiIds]))
                 } else {
                     deletedApiIds.push(String(id));
                     localStorage.setItem("localCharacter", JSON.stringify([localCharacters, deletedApiIds]))
