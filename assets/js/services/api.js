@@ -95,3 +95,26 @@ export async function getCharactersByEpisode(episode) {
   const response = await httpClient.get(`/character/${ids}`);
   return Array.isArray(response.data) ? response.data : [response.data];
 }
+export async function getHomeStats() {
+  try {
+    const [charactersResponse, locationsResponse, episodesResponse] =
+      await Promise.all([
+        httpClient.get("/character?page=1"),
+        httpClient.get("/location?page=1"),
+        httpClient.get("/episode?page=1"),
+      ]);
+
+    return {
+      characters: charactersResponse.data.info.count,
+      locations: locationsResponse.data.info.count,
+      episodes: episodesResponse.data.info.count,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      characters: 0,
+      locations: 0,
+      episodes: 0,
+    };
+  }
+}
