@@ -1,4 +1,44 @@
-<section>
-    <h1>Rick and Morty SPA</h1>
-    <p>Welcome to the Rick and Morty Single Page Application! Explore the characters, episodes, and locations from the popular TV show. Use the navigation menu to browse through different sections and discover more about your favorite characters and their adventures.</p>
+<section class="home-page">
+  <section class="home-hero">
+    <div class="home-hero-content">
+      <h1>Rick and Morty SPA</h1>
+      <p>
+        Explore characters, locations and episodes from the Rick and Morty multiverse
+        in a Single Page Application built with Vanilla JavaScript.
+      </p>
+
+      <div class="home-actions">
+        <a href="/characters?page=1" data-link class="home-link">View Characters</a>
+        <a href="/location?page=1" data-link class="home-link">View Locations</a>
+        <a href="/episodes?page=1" data-link class="home-link">View Episodes</a>
+      </div>
+    </div>
+
+    <div class="home-hero-image">
+      <img
+        src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+        alt="Rick Sanchez"
+      >
+    </div>
+  </section>
+
+  <section class="home-stats">
+    <h2>Universe Overview</h2>
+    <div class="home-stats-grid">
+      <article class="home-stat-card">
+        <h3>Characters</h3>
+        <p id="total-characters">...</p>
+      </article>
+
+      <article class="home-stat-card">
+        <h3>Locations</h3>
+        <p id="total-locations">...</p>
+      </article>
+
+      <article class="home-stat-card">
+        <h3>Episodes</h3>
+        <p id="total-episodes">...</p>
+      </article>
+    </div>
+  </section>
 </section>
