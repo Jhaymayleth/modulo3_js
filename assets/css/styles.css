@@ -39,7 +39,7 @@ main {
     transition: box-shadow 0.3s ease;
 }
 
-.card:hover {
+.card:hover, .episode-card:hover, .location-card:hover{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.18);
 }
 
@@ -49,7 +49,7 @@ main {
 
 .card-body {
     padding: 1rem;
-    color: #333;
+    color: #d1fdd1;
 }
 
 .MoreInfo {
@@ -68,6 +68,7 @@ main {
     align-items: center;
     justify-content: center;
     text-align: center;
+    transition: box-shadow 0.3s ease;
 }
 
 .location-card img,
@@ -264,7 +265,7 @@ button {
   overflow-y: auto;
   margin: 40px auto;
   background: #111827;
-  color: white;
+  color: rgb(255, 255, 255);
   border-radius: 16px;
   padding: 24px;
 }
