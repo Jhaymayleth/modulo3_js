@@ -12,11 +12,27 @@ export function characterCard(character) {
 
             <div class="card-body">
                 <h3>${character.name}</h3>
-                <p><strong>Status:</strong> ${character.status}</p>
-                <p><strong>Species:</strong> ${character.species}</p>
-                ${character.location?.name ? `<p><strong>Actual location:</strong> ${character.location.name}</p>` : ''}
-                ${character.gender ? `<p><strong>Gender:</strong> ${character.gender}</p>` : ''}
-                ${character.origin?.name ? `<p><strong>Origin:</strong> ${character.origin.name}</p>` : ''}
+                <p>
+                    <strong>Status:</strong> 
+                    ${character.status}
+                </p>
+                <p>
+                    <strong>Species:</strong> 
+                    ${character.species}
+                </p>
+                <p>
+                    <strong>Actual location:</strong> 
+                    ${character.location.name}
+                </p> 
+                <p>
+                    <strong>Gender:</strong> 
+                    ${character.gender}
+                </p>
+                <p>
+                    <strong>Origin:</strong> 
+                    ${character.origin.name}
+                </p>
+
                 ${character.type ? `<p><strong>Type:</strong> ${character.type}</p>` : ''}
 
                 <div class="card-actions">
