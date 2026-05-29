@@ -21,6 +21,10 @@ export function episodeCard(episode) {
                     <strong>Air Date:</strong>
                     ${episode.air_date}
                 </p>
+                <p>
+                    <strong>number of Characters Appeared:</strong>
+                    ${episode.characters.length}
+                </p>
             </div>
         </article>
     `;
