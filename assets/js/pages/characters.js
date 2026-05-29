@@ -2,10 +2,26 @@ import { loadHTML } from '../utils/helpers.js';
 import { loadPage } from '../services/api.js';
 import { characterCard } from '../components/characterCard.js';
 
-let localCharacters = [];
+// Estado de la aplicación
+const stored = (() => {
+    try {
+        return JSON.parse(localStorage.getItem('localCharacter'));
+    } catch (e) {
+        return null;
+    }
+})();
+
+let localCharacters = Array.isArray(stored) && Array.isArray(stored[0]) ? stored[0] : [];
+let deletedApiIds = Array.isArray(stored) && Array.isArray(stored[1]) ? stored[1] : [];
 
 function renderCards(apiCharacters, container) {
-    const all = [...apiCharacters, ...localCharacters];
+    // 1. Filtramos los personajes de la API que estén en la lista negra
+    const filteredApi = apiCharacters.filter(c => !deletedApiIds.includes(String(c.id)));
+
+    // 2. Unimos los personajes filtrados de la API con los locales
+    const all = [...filteredApi, ...localCharacters];
+
+    // 3. Pintamos en el contenedor
     container.innerHTML = all
         .map(character => characterCard(character))
         .join('');
@@ -14,24 +30,31 @@ function renderCards(apiCharacters, container) {
 function openModal(mode = 'add', character = null) {
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modal-title');
-    const inputName = document.getElementById('input-name');
-    const inputStatus = document.getElementById('input-status');
-    const inputSpecies = document.getElementById('input-species');
-    const inputImage = document.getElementById('input-image');
+
+    const fields = {
+        name: document.getElementById('input-name'),
+        status: document.getElementById('input-status'),
+        species: document.getElementById('input-species'),
+        image: document.getElementById('input-image'),
+        origin: document.getElementById('input-origin'),
+        location: document.getElementById('input-location'),
+        gender: document.getElementById('input-gender')
+    };
 
     if (mode === 'edit' && character) {
         modalTitle.textContent = 'Editar Personaje';
-        inputName.value = character.name;
-        inputStatus.value = character.status;
-        inputSpecies.value = character.species;
-        inputImage.value = character.image;
+        fields.name.value = character.name || '';
+        fields.status.value = character.status || 'Alive';
+        fields.species.value = character.species || '';
+        fields.image.value = character.image || '';
+        fields.origin.value = character.origin || '';
+        fields.location.value = character.location || '';
+        fields.gender.value = character.gender || '';
         modal.dataset.editId = character.id;
     } else {
         modalTitle.textContent = 'Añadir Personaje';
-        inputName.value = '';
-        inputStatus.value = 'Alive';
-        inputSpecies.value = '';
-        inputImage.value = '';
+        Object.values(fields).forEach(input => input.value = '');
+        fields.status.value = 'Alive';
         delete modal.dataset.editId;
     }
 
@@ -51,73 +74,69 @@ export async function renderCharacters(page = 1) {
 
     renderCards(apiCharacters, container);
 
-    document.getElementById('btn-add').addEventListener('click', () => {
-        openModal('add');
-    });
+    // Evento Añadir
+    document.getElementById('btn-add').addEventListener('click', () => openModal('add'));
 
+    // Delegación de eventos para Editar/Eliminar
     container.addEventListener('click', (event) => {
         const target = event.target;
+        const id = target.dataset.id;
 
         if (target.classList.contains('btn-edit')) {
-            const id = target.dataset.id;
-            const character =
-                localCharacters.find(c => String(c.id) === id) ||
+            const character = localCharacters.find(c => String(c.id) === id) ||
                 apiCharacters.find(c => String(c.id) === id);
-
-            if (character) {
-                openModal('edit', character);
-            }
+            if (character) openModal('edit', character);
         }
 
         if (target.classList.contains('btn-delete')) {
-            const id = target.dataset.id;
-            const confirmed = confirm('¿Eliminar este personaje?');
-            if (!confirmed) return;
-
-            localCharacters = localCharacters.filter(c => String(c.id) !== id);
-            console.log(localCharacters);
-            
-            renderCards(apiCharacters, container);
+            if (confirm('¿Eliminar este personaje?')) {
+                // Si es un personaje local, lo filtramos. Si es de la API, va a la lista negra.
+                if (String(id).startsWith('local-')) {
+                    localCharacters = localCharacters.filter(c => String(c.id) !== id);
+                    localStorage.setItem("localCharacter", JSON.stringify([localCharacters, deletedApiIds]))
+                } else {
+                    deletedApiIds.push(String(id));
+                    localStorage.setItem("localCharacter", JSON.stringify([localCharacters, deletedApiIds]))
+                }
+                renderCards(apiCharacters, container);
+            }
         }
     });
 
+    // Guardar (Crear o Editar)
     document.getElementById('btn-save').addEventListener('click', () => {
         const modal = document.getElementById('modal');
-        const name = document.getElementById('input-name').value.trim();
-        const status = document.getElementById('input-status').value;
-        const species = document.getElementById('input-species').value.trim();
-        const image = document.getElementById('input-image').value.trim();
-        const origin = document.getElementById('input-origin').value.trim();
-        const location = document.getElementById('input-location').value.trim();
-        const gender = document.getElementById('input-gender').value.trim();
+        const editId = modal.dataset.editId;
 
-        if (!name || !species) {
+        const newOrUpdatedChar = {
+            id: editId || 'local-' + Date.now(),
+            name: document.getElementById('input-name').value.trim(),
+            status: document.getElementById('input-status').value,
+            species: document.getElementById('input-species').value.trim(),
+            image: document.getElementById('input-image').value.trim() || 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+            origin: document.getElementById('input-origin').value.trim(),
+            location: document.getElementById('input-location').value.trim(),
+            gender: document.getElementById('input-gender').value.trim()
+        };
+
+        if (!newOrUpdatedChar.name || !newOrUpdatedChar.species) {
             alert('Por favor completa el nombre y la especie.');
             return;
         }
 
-        const editId = modal.dataset.editId;
-
         if (editId) {
-            const existingIndex = localCharacters.findIndex(c => String(c.id) === editId);
-
-            if (existingIndex !== -1) {
-                localCharacters[existingIndex] = { ...localCharacters[existingIndex], name, status, species, image, origin, location, gender };
+            const index = localCharacters.findIndex(c => String(c.id) === editId);
+            if (index !== -1) {
+                localCharacters[index] = newOrUpdatedChar;
             } else {
-                localCharacters.push({ id: editId, name, status, species, image, origin, location, gender });
+                // Si editamos algo que venía de la API, se convierte en "local"
+                localCharacters.push(newOrUpdatedChar);
+                deletedApiIds.push(String(editId)); // Lo ocultamos de la API original
+                localStorage.setItem("localCharacter", JSON.stringify([localCharacters, deletedApiIds]))
             }
         } else {
-            const newCharacter = {
-                id: 'local-' + Date.now(),
-                name,
-                status,
-                species,
-                image: image || 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-                origin,
-                location,
-                gender
-            };
-            localCharacters.push(newCharacter);
+            localCharacters.push(newOrUpdatedChar);
+            localStorage.setItem("localCharacter", JSON.stringify([localCharacters, deletedApiIds]))
         }
 
         renderCards(apiCharacters, container);
