@@ -44,6 +44,7 @@ main {
 
 .card-body {
     padding: 1rem;
+    color: #333;
 }
 
 .MoreInfo {
