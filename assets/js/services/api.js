@@ -15,6 +15,7 @@ import httpClient from './httpClient.js';
 export async function getCharacters(page = 1) {
     try {
         const response = await httpClient.get(`/character?page=${page}`);
+        console.log(response.data);
         return [response.data.results, response.data.info.pages];
 
     } catch (error) {

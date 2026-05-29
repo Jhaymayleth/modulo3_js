@@ -12,16 +12,49 @@ export function characterCard(character) {
             >
 
             <div class="card-body">
-                <h3>${character.name}</h3>
+                <h2>${character.name}</h2>
                 <p>
                     <strong>Status:</strong>
                     ${character.status}
                 </p>
                 <p>
-                    <strong>Species:</strong>
-                    ${character.species}
+                    <strong>Actual location:</strong>
+                    ${character.location.name}
                 </p>
+                <p>
+                    <strong>Gender:</strong>
+                    ${character.gender}
+                </p>
+                
+                <span class="MoreInfo">
+                    <p>
+                        <strong>Origin:</strong>
+                        ${character.origin.name}
+                    </p>
+                    <p>
+                        <strong>Species:</strong>
+                        ${character.species}
+                    </p>
+                    ${character.type? `<p><strong>Type:</strong> ${character.type}</p>` : ""}
+                </span>
             </div>
         </article>
     `;
 }
+
+// created
+// episode
+// gender -
+// id 
+// image -
+// location
+//     name -
+//     url
+// name -
+// origin
+//     name -
+//     url
+// species -
+// status -
+// type -
+// url
