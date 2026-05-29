@@ -5,7 +5,7 @@
 export function locationCard(location) {
 
     return `
-        <article class="location-card">
+        <article class="location-card glass-card">
             <img
                 src="https://media.giphy.com/media/3o7aD2d7hy9ktXNDP2/giphy.gif"
                 alt="${location.name}"

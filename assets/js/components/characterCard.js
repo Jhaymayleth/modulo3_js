@@ -2,7 +2,7 @@ export function characterCard(character, options = {}) {
   const { showActions = true } = options;
 
   return `
-    <article class="card" data-id="${character.id || ""}">
+    <article class="card glass-card" data-id="${character.id || ""}">
       <img
         src="${character.image}"
         alt="${character.name}"
