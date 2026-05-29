@@ -38,11 +38,30 @@ export async function getLocations(page = 1) {
     }
 }
 
+/**
+ * Obtiene episodios
+ *
+ * @returns {Promise<Array>}
+ */
+export async function getEpisodes(page = 1) {
+    try {
+        // obtiene datos de los episodios y el total de páginas
+        const response = await httpClient.get(`/episode?page=${page}`);
+        console.log(response.data);
+        return [response.data.results, response.data.info.pages];
+
+    } catch (error) {
+        console.error(error);
+        return [ [], 1 ];
+    }
+}
+
 // Función para cargar datos de personajes o locaciones dependiendo del view, y manejar la paginación
 export async function loadPage(view, page = 1, container) {
     const views = {
         characters: getCharacters,
-        locations: getLocations
+        locations: getLocations,
+        episodes: getEpisodes
     };
 
     const fetchPage = views[view];
@@ -62,7 +81,8 @@ export async function loadPage(view, page = 1, container) {
 
     const routeMap = {
         characters: '/characters',
-        locations: '/location'
+        locations: '/location',
+        episodes: '/episodes'
     };
 
     function goToPage(newPage) {

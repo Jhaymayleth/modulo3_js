@@ -1,22 +1,22 @@
 import { loadHTML } from '../utils/helpers.js';
 import { loadPage } from '../services/api.js';
-import { locationCard } from '../components/locationsCard.js';
+import { episodeCard } from '../components/episodesCard.js';
 
 /**
  * Renderiza los episodios
  */
-export async function renderLocations(page = 1) {
+export async function renderEpisodes(page = 1) {
     const content = document.getElementById('content');
     content.innerHTML = await loadHTML(
-        './assets/js/views/locations.html'
+        './assets/js/views/episodes.html'
     );
     const container = document.getElementById(
-        'locations-container'
+        'episodes-container'
     );
 
-    const locations = await loadPage('locations', page, container);
+    const episodes = await loadPage('episodes', page, container);
 
-    container.innerHTML = locations
-        .map(location => locationCard(location))
+    container.innerHTML = episodes
+        .map(episode => episodeCard(episode))
         .join('');
 }

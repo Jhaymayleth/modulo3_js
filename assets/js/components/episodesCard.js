@@ -14,14 +14,22 @@ export function episodeCard(episode) {
             <div class="card-body">
                 <h3>${episode.name}</h3>
                 <p>
-                    <strong>Type:</strong>
-                    ${episode.type}
+                    <strong>Episode Number:</strong>
+                    ${episode.episode}
                 </p>
                 <p>
-                    <strong>Dimension:</strong>
-                    ${episode.dimension}
+                    <strong>Air Date:</strong>
+                    ${episode.air_date}
                 </p>
             </div>
         </article>
     `;
 }
+
+// air_date
+// characters
+// created
+// episode
+// id
+// name
+// url

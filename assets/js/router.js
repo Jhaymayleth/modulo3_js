@@ -7,6 +7,7 @@ import { renderContacts } from './pages/contacts.js';
 import { renderAbout } from './pages/about.js';
 import { renderLocations } from './pages/locations.js';
 import { renderCharacters } from './pages/characters.js';
+import { renderEpisodes } from './pages/episodes.js';
 
 /**
  * Rutas disponibles
@@ -16,7 +17,8 @@ const routes = {
     '/contacts': renderContacts,
     '/about': renderAbout,
     '/location': renderLocations,
-    '/characters': renderCharacters
+    '/characters': renderCharacters,
+    '/episodes': renderEpisodes
 };
 
 /**
