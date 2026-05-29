@@ -9,15 +9,15 @@ export function episodeCard(episode) {
       <div class="card-body">
         <h3>${episode.name}</h3>
         <p>
-          <strong>Episode Number:</strong>
+          <strong>Episodio:</strong>
           ${episode.episode}
         </p>
         <p>
-          <strong>Air Date:</strong>
+          <strong>Fecha de emisión:</strong>
           ${episode.air_date}
         </p>
         <p>
-          <strong>Characters:</strong>
+          <strong>Cantidad de personajes:</strong>
           ${episode.characters.length}
         </p>
         <button class="episode-button" data-episode-id="${episode.id}">
