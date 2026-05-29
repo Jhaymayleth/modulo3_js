@@ -3,7 +3,6 @@
  */
 
 export async function loadNavbar() {
-
     const navbar = document.getElementById('navbar');
 
     navbar.innerHTML = `

@@ -11,13 +11,11 @@ import httpClient from './httpClient.js';
  */
 export async function getCharacters(page = 1) {
     try {
-        // obtiene datos de los personajes y el total de páginas
         const response = await httpClient.get(`/character?page=${page}`);
         return [response.data.results, response.data.info.pages];
-
     } catch (error) {
         console.error(error);
-        return [ [], 1 ];
+        return [[], 1];
     }
 }
 
@@ -28,13 +26,11 @@ export async function getCharacters(page = 1) {
  */
 export async function getLocations(page = 1) {
     try {
-        // obtiene datos de las locaciones y el total de páginas
         const response = await httpClient.get(`/location?page=${page}`);
         return [response.data.results, response.data.info.pages];
-
     } catch (error) {
         console.error(error);
-        return [ [], 1 ];
+        return [[], 1];
     }
 }
 
@@ -45,18 +41,15 @@ export async function getLocations(page = 1) {
  */
 export async function getEpisodes(page = 1) {
     try {
-        // obtiene datos de los episodios y el total de páginas
         const response = await httpClient.get(`/episode?page=${page}`);
-        console.log(response.data);
         return [response.data.results, response.data.info.pages];
-
     } catch (error) {
         console.error(error);
-        return [ [], 1 ];
+        return [[], 1];
     }
 }
 
-// Función para cargar datos de personajes o locaciones dependiendo del view, y manejar la paginación
+// Función para cargar datos de personajes, locaciones o episodios dependiendo de la vista.
 export async function loadPage(view, page = 1, container) {
     const views = {
         characters: getCharacters,

@@ -3,58 +3,27 @@
  */
 
 export function characterCard(character) {
-
     return `
-        <article class="card">
+        <article class="card" data-id="${character.id || ''}">
             <img
                 src="${character.image}"
                 alt="${character.name}"
             >
 
             <div class="card-body">
-                <h2>${character.name}</h2>
-                <p>
-                    <strong>Status:</strong>
-                    ${character.status}
-                </p>
-                <p>
-                    <strong>Actual location:</strong>
-                    ${character.location.name}
-                </p>
-                <p>
-                    <strong>Gender:</strong>
-                    ${character.gender}
-                </p>
-                
-                <span class="MoreInfo">
-                    <p>
-                        <strong>Origin:</strong>
-                        ${character.origin.name}
-                    </p>
-                    <p>
-                        <strong>Species:</strong>
-                        ${character.species}
-                    </p>
-                    ${character.type? `<p><strong>Type:</strong> ${character.type}</p>` : ""}
-                </span>
+                <h3>${character.name}</h3>
+                <p><strong>Status:</strong> ${character.status}</p>
+                <p><strong>Species:</strong> ${character.species}</p>
+                ${character.location?.name ? `<p><strong>Actual location:</strong> ${character.location.name}</p>` : ''}
+                ${character.gender ? `<p><strong>Gender:</strong> ${character.gender}</p>` : ''}
+                ${character.origin?.name ? `<p><strong>Origin:</strong> ${character.origin.name}</p>` : ''}
+                ${character.type ? `<p><strong>Type:</strong> ${character.type}</p>` : ''}
+
+                <div class="card-actions">
+                    <button class="btn-edit" data-id="${character.id}">✏️ Editar</button>
+                    <button class="btn-delete" data-id="${character.id}">🗑️ Eliminar</button>
+                </div>
             </div>
         </article>
     `;
 }
-
-// created
-// episode
-// gender -
-// id 
-// image -
-// location
-//     name -
-//     url
-// name -
-// origin
-//     name -
-//     url
-// species -
-// status -
-// type -
-// url
