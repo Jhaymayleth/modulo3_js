@@ -221,3 +221,72 @@ button {
 #btn-save:hover {
     background: #009aaf;
 }
+
+.episode-button {
+  margin-top: 8px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #00b5cc;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.episode-button:hover {
+  background: #0093a6;
+}
+
+.episode-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.episode-modal.hidden {
+  display: none;
+}
+
+.episode-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.episode-modal-content {
+  position: relative;
+  z-index: 2;
+  width: min(1100px, 90%);
+  max-height: 85vh;
+  overflow-y: auto;
+  margin: 40px auto;
+  background: #111827;
+  color: white;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.episode-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.episode-characters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.episode-loading,
+.episode-empty,
+.episode-error {
+  margin-top: 16px;
+  font-size: 16px;
+}
