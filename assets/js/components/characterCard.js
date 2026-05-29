@@ -20,7 +20,7 @@ export function characterCard(character, options = {}) {
                 </p>
                 <p>
                     <strong>Actual location:</strong> 
-                    ${character.location.name}
+                    ${character.location.name ? character.location.name : ''}
                 </p> 
                 <p>
                     <strong>Gender:</strong> 

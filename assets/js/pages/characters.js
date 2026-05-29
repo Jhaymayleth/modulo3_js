@@ -75,6 +75,8 @@ export async function renderCharacters(page = 1) {
             if (!confirmed) return;
 
             localCharacters = localCharacters.filter(c => String(c.id) !== id);
+            console.log(localCharacters);
+            
             renderCards(apiCharacters, container);
         }
     });
@@ -85,6 +87,9 @@ export async function renderCharacters(page = 1) {
         const status = document.getElementById('input-status').value;
         const species = document.getElementById('input-species').value.trim();
         const image = document.getElementById('input-image').value.trim();
+        const origin = document.getElementById('input-origin').value.trim();
+        const location = document.getElementById('input-location').value.trim();
+        const gender = document.getElementById('input-gender').value.trim();
 
         if (!name || !species) {
             alert('Por favor completa el nombre y la especie.');
@@ -97,9 +102,9 @@ export async function renderCharacters(page = 1) {
             const existingIndex = localCharacters.findIndex(c => String(c.id) === editId);
 
             if (existingIndex !== -1) {
-                localCharacters[existingIndex] = { ...localCharacters[existingIndex], name, status, species, image };
+                localCharacters[existingIndex] = { ...localCharacters[existingIndex], name, status, species, image, origin, location, gender };
             } else {
-                localCharacters.push({ id: editId, name, status, species, image });
+                localCharacters.push({ id: editId, name, status, species, image, origin, location, gender });
             }
         } else {
             const newCharacter = {
@@ -107,7 +112,10 @@ export async function renderCharacters(page = 1) {
                 name,
                 status,
                 species,
-                image: image || 'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
+                image: image || 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+                origin,
+                location,
+                gender
             };
             localCharacters.push(newCharacter);
         }
